@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import './ToDo.css';
 import ToDoItem from './components/ToDoItem';
+import ToDoItem1 from './components/ToDoItem1';
 import Logo from './assets/logo.png';
 
 class ToDo extends Component {
@@ -9,25 +10,39 @@ class ToDo extends Component {
         this.state = {
             list: [
                 {
-                    'todo': "Wash and take away the Kurzhiy's cup from WC"
+                    'todo': "Title",
+                    'todo1': "SomeText"
+                    
                 },
                 {
-                    'todo': 'Do some rollton and cigarettes'
+                    'todo': "Wash and take away the Kurzhiy's cup from WС",
+                    'todo1': "SomeText"
+                },
+                {
+                    'todo': 'Do some rollton and cigarettes',
+                    'todo1': "SomeText"
                 }
+                
             ],
-            todo: ''
+            todo: '',
+            todo1:''
+            
+        
         };
     };
 
     createNewToDoItem = () => {
-      this.setState(({ list, todo }) => ({
+      this.setState(({ list, todo,todo1 }) => ({
         list: [
             ...list,
           {
-            todo
+            todo,
+            todo1
+        
           }
         ],
-        todo: ''
+        todo: '',
+        todo1:''
       }));
     };
 
@@ -45,6 +60,12 @@ class ToDo extends Component {
       });
     };
 
+    handleInput1 = e => {
+        this.setState({
+          todo1: e.target.value
+        });
+      };
+
     deleteItem = indexToDelete => {
       this.setState(({ list }) => ({
         list: list.filter((toDo, index) => index !== indexToDelete)
@@ -61,17 +82,23 @@ class ToDo extends Component {
                     <div className="ToDo-Content">
 
                         {this.state.list.map((item, key) => {
-                                return <ToDoItem
+                                return [<ToDoItem1
                                                 key={key}
                                                 item={item.todo}
+                                                />,
+                                                <ToDoItem
+                                                key={key}
+                                                item={item.todo1}
                                                 deleteItem={this.deleteItem.bind(this, key)}
-                                                />
+                                                />]
                           }
                         )}
+                        
                     </div>
 
                     <div>
                        <input type="text" value={this.state.todo} onChange={this.handleInput} onKeyPress={this.handleKeyPress}/>
+                       <input type="text" value={this.state.todo1} onChange={this.handleInput1} onKeyPress={this.handleKeyPress}/>
                        <button className="ToDo-Add" onClick={this.createNewToDoItem}>+</button>
                     </div>
 
